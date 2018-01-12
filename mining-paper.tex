@@ -61,7 +61,23 @@ mined.
 If the restaking happens automatically, so that what is mined isn't even taken out of the smart contract, it could have tax advantages in some jurisdictions
 also.
 
+\section{Distributing rewards between stakers}
+
+Let the daily relative inflation rate be $\varepsilon$.
+If all the miners had the same rewards rate, the profit of individual miner is:
+\begin{equation}
+    dc_i/dt = r_i = \frac{s_i}{\sum_i s_i} \varepsilon C,
+\end{equation}
+where $s_i$ is stake of an individual (actively staking) miner, and $C$ is the total number of coins currently in existence.
+Rate $r_i$ is the increase of the number of coins the miner has $c_i$ per day.
+
 \section{Incentives to create long-term stakers}
+
+Our network needs nodes which can live up to a year, to handle long-term re-encryption policies (although longer than a year could be not necessarily good in
+terms of incentivising key rotation).
+Thus, we have to provide higher rewards for people who stake for a longer time.
+
+The daily reward rate coefficient $\epsilon$ depending ...
 
 \section{Inflation models}
 
