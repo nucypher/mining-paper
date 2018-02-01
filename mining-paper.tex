@@ -49,40 +49,22 @@ But initially, when the adoption isn't yet high, miners who run the nodes necess
 will need to be subsidised.
 This will be done through inflation schedule, where all the inflation is given back to miners.
 
-The individual inflation rate will be dependent on the minimal time $\tau$ the node commits to mine for.
-It will incentivize longer miners.
-The coins staked at this time will be fully available in no less than the time $\tau$.
+Distribution of rewards should have the following properties:
+\begin{itemize}
+    \item All the inflation is distributed to stakers who run the nodes, proportionally to the stake;
+    \item Amount of work (and, hence, the fees) is proportional to stake also;
+    \item Stakers are incentivized (by a higher reward rate) to run long-term nodes;
+    \item High inflation doesn't depreciate the price in order to keep liquidity good for new stakers;
+    \item Stakers are incentivized to stay online all the time.
+\end{itemize}
 
-Mining rates, however, shouldn't be overly too high: too high inflation schedules may depreciate the price.
-For example, the price of ZCash experienced an inflection point (started going up) only when it become lower than $350\%$ APR.
-However, for steam.it, the inflation rate of about $100\%$ per year appeared to be too high.
-Hence, to be on the safe side, our inflation should be lower than $100\%$ per year, and also we should provide convenient ways for miners to restake what they
-mined.
-If the restaking happens automatically, so that what is mined isn't even taken out of the smart contract, it could have tax advantages in some jurisdictions
-also.
+In the paper we address all these points, calculate expected earnings of miners who run nodes and devise optimal mining strategies.
 
-\section{Distributing rewards between stakers}
+\section{Historical examples of inflation}
 
-Let the daily relative inflation rate be $\varepsilon$.
-If all the miners had the same rewards rate, the profit of individual miner is:
-\begin{equation}
-    dc_i/dt = r_i = \frac{s_i}{\sum_i s_i} \varepsilon C,
-\end{equation}
-where $s_i$ is stake of an individual (actively staking) miner, and $C$ is the total number of coins currently in existence.
-Rate $r_i$ is the increase of the number of coins the miner has $c_i$ per day.
+Let's review inlation schedules of different cryptocurrency projects:
+DASH~\cite{dash:whitepaper}, ZCash~\cite{zcash} and Steam.it~\cite{steamit}.
 
-\section{Incentives to create long-term stakers}
-
-Our network needs nodes which can live up to a year, to handle long-term re-encryption policies (although longer than a year could be not necessarily good in
-terms of incentivising key rotation).
-Thus, we have to provide higher rewards for people who stake for a longer time.
-
-The daily reward rate coefficient $\epsilon$ depending ...
-
-\section{Inflation models}
-
-\section{Possible strategies for stakers}
-
-\section{Edge cases: restaking during unlocking, connectivity problems}
+\bibliography{mining-paper}
 
 \end{document}
