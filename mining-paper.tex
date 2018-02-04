@@ -90,6 +90,30 @@ This gives us information about what would be the maximum allowable inflation wh
 
 \section{Mining protocol}
 
+Miner commits to stay available for at least certain time $T$.
+If the tokens were locked for this whole time $T$ and abruptly unlocked after that, we'd have a problem with a pre-locked preallocation:
+a huge increase of tokens in circulation right after the time $T$ would probably crash the market.
+
+In order to avoid that, we introduce two modes of miner operation: \it{steady state} and \it{ramp down}.
+When miner is in steady state, his base coins stay locked.
+Block rewards are created, and they aren't necessarily locked (unless the miner chooses to add newly minted coins to the locked amount).
+
+At any point of time, the miner can switch to \it{ramp down}.
+This would start unlocking the coins which he stakes linearly, during the time $T$.
+Both, \it{steady state} mode and \it{ramp down} starting at the point $t_1$ are shown at (\figref{fig:mining-modes}).
+So, the time $T$ doesn't mean the total time during which miner's tokens are locked, but rather how quickly do the tokens get unlocked once he starts
+unlocking.
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{pdf/mining-modes.pdf}
+    \caption{
+        Mining modes: \it{steady state} (before $t_1$) and \it{ramp down} (from $t_1$ till $t_1 + T$).
+        The ramp down (or vesting) time $T$ is chosen by the miner (and he gets higher staking rewards when $T$ is higher).
+    }
+    \label{fig:mining-modes}
+\end{figure}
+
+
 \section{Inflation properties}
 
 \section{Mining strategies}
