@@ -114,11 +114,24 @@ So, the time $T$ doesn't mean the total time during which miner's tokens are loc
 unlocking.
 
 
-\section{Inflation properties}
+\section{General inflation properties}
+
+Let's assume that we'll have the same number of tokens locked as DASH has: $\lambda=60\%$.
+Then we'll have $1-\lambda=40\%$ in circulation.
+If we have inflation rate $I$, then adjusted inflation rate (e.g. inflation as if the locked coins didn't exist) of coins in circulation will be:
+\begin{equation}
+    I^* = \frac{I}{1-\lambda},
+\end{equation}
+and we should be comparing $I^*$ with historical examples of inflation.
+If we take $I^*=350\%$ (turnover point of ZCash price in an overall bullish market), the corresponding inflation $I$ will be $140\%$~APR.
+
+To be on the safe side, we choose the starting inflation to be $I_0=100\%$~APR (or, in other words, $1/365$ per day).
 
 \section{Mining strategies}
 
 \section{Edge cases: connection problems, vesting during unlocking}
+
+\section{TLDR}
 
 \bibliography{mining-paper}
 
