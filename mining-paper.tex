@@ -116,6 +116,8 @@ unlocking.
 
 \section{General inflation properties}
 
+\subsection{Initial inflation}
+
 Let's assume that we'll have the same number of tokens locked as DASH has: $\lambda=60\%$.
 Then we'll have $1-\lambda=40\%$ in circulation.
 If we have inflation rate $I$, then adjusted inflation rate (e.g. inflation as if the locked coins didn't exist) of coins in circulation will be:
@@ -126,6 +128,20 @@ and we should be comparing $I^*$ with historical examples of inflation.
 If we take $I^*=350\%$ (turnover point of ZCash price in an overall bullish market), the corresponding inflation $I$ will be $140\%$~APR.
 
 To be on the safe side, we choose the starting inflation to be $I_0=100\%$~APR (or, in other words, $1/365$ per day).
+
+\subsection{Inflation decay}
+
+Initially, the inflation subsidises mining, but payments for re-encryption services will provide all the revenues of miners in the long run.
+If all miners have the same, maximum reward rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
+The inflation, depending on time passed from the Genesis $t$, looks like:
+\begin{equation}
+    I(t) = I_0 \cdot 2^{-\frac{t}{T_{1/2}}} = I_0 \exp\left[ -\ln{2} \frac{t}{T_{1/2}} \right].
+\end{equation}
+In this case, maximum token supply (e.g. the maximum number of tokens which will ever be created) is:
+\begin{equation}
+    S_{\max} = S_0 + \int_0^{\infty} I(t)\, dt = S_0 + \frac{I_0 T_{1/2}}{\ln{2}} \approx 3.89\, S_0,
+\end{equation}
+where $S_0$ is initial number of tokens, and $I_0 = S_0$ when the former is expressed in APR.
 
 \section{Mining strategies}
 
