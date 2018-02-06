@@ -155,6 +155,7 @@ where $S(t)$ is the current token supply with $S(0)=S_0$ and the time step $dt$ 
 Each mining node can trivially calculate its $dS$ in a smart contract using very few operations and the coin supply $S$ from the last period.
 So, the amount of coins mined for the node $i$ and the time period $t$ will be:
 \begin{eqnarray}
+    \label{eq:rate-max}
     ds_{i,t} &=& \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1} \right),\\
     dS_t &=& \sum_i ds_{i,t},
 \end{eqnarray}
@@ -162,6 +163,17 @@ where $l_i$ is the number of coins locked by the miner $i$, $L$ is the total num
 Instead of calculating all the sum over $i$, each miner $i$ can add her portion $ds_{i,t}$.
 
 \subsection{Mining rate and staking time}
+
+We want to incentivize miners to keep serving re-encryption policies for at least $1$~year.
+However, short-term stakers are still useful and should be rewarded.
+We will give the full reward to the stakers who are committed to stake at least $T_1=1$~year,
+however those who stake for $T_{\min}=1$~month will get half the reward.
+So, the individual daily reward rate for a miner looks as:
+\begin{eqnarray}
+    \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1) - T_{\min}}{T_1 - T_{\min}}\right)\\
+    T_i &\ge& T_{\min},\\
+    ds_{i,t} &=&  \kappa\, \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1}\right).\\
+\end{eqnarray}
 
 \section{Mining strategies}
 
