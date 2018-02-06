@@ -166,14 +166,20 @@ Instead of calculating all the sum over $i$, each miner $i$ can add her portion 
 
 We want to incentivize miners to keep serving re-encryption policies for at least $1$~year.
 However, short-term stakers are still useful and should be rewarded.
-We will give the full reward to the stakers who are committed to stake at least $T_1=1$~year,
-however those who stake for $T_{\min}=1$~month will get half the reward.
+We will give the full reward ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
+however those who stake for $T_{\min}=1$~month will get half the reward ($\kappa=0.5$).
 So, the individual daily reward rate for a miner looks as:
 \begin{eqnarray}
     \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1) - T_{\min}}{T_1 - T_{\min}}\right)\\
     T_i &\ge& T_{\min},\\
     ds_{i,t} &=&  \kappa\, \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1}\right).\\
 \end{eqnarray}
+
+This has implications on the global token economy.
+Firstly, if stakers, despite smaller reward, prefer to stake for shorter, that creates smaller daily token supply.
+Since this usually should coincide with bear market, reducing the issuance during that time sounds like a good idea.
+
+Interestingly enough, $\kappa < 1$ prolongs the time $T_{1/2}$ as:
 
 \section{Mining strategies}
 
