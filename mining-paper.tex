@@ -145,7 +145,21 @@ where $S_0$ is initial number of tokens, and $I_0 = S_0$ when the former is expr
 
 \subsection{Implementation of the exponential decay in a smart contract}
 
-- differential approximation -
+Complex functions like exponentials, if implemented in smart contracts, would be quite costly.
+Fortunately, the exponential is a solution of a differential equation where inflation is proportional to the amount of yet not mined coins:
+\begin{eqnarray}
+    I(t) &=& \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t) \right)\\
+    dS &=& I(t)\, dt,
+\end{eqnarray}
+where $S(t)$ is the current token supply with $S(0)=S_0$ and the time step $dt$ can actually be equal to the mining period ($1$~day).
+Each mining node can trivially calculate its $dS$ in a smart contract using very few operations and the coin supply $S$ from the last period.
+So, the amount of coins mined for the node $i$ and the time period $t$ will be:
+\begin{eqnarray}
+    ds_{i,t} &=& \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1} \right),\\
+    dS_t &=& \sum_i ds_{i,t},
+\end{eqnarray}
+where $l_i$ is the number of coins locked by the miner $i$, $L$ is the total number of coins locked.
+Instead of calculating all the sum over $i$, each miner $i$ can add her portion $ds_{i,t}$.
 
 \subsection{Mining rate and staking time}
 
