@@ -172,13 +172,17 @@ Instead of calculating all the sum over $i$, each miner $i$ can add her portion 
 We want to incentivize miners to keep serving re-encryption policies for at least $1$~year.
 However, short-term stakers are still useful and should be rewarded.
 We will give the full reward ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
-however those who stake for $T_{\min}=1$~month will get half the reward ($\kappa=0.5$).
-So, the individual daily reward rate for a miner looks as:
+however those who stake for $T_{\min}=1$~month will get close to half the reward ($\kappa\approx0.54$).
+The individual daily reward rate for a miner looks as:
 \begin{eqnarray}
-    \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1) - T_{\min}}{T_1 - T_{\min}}\right)\\
-    T_i &\ge& T_{\min},\\
+    \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1)}{T_1}\right)\\
+    T_{i,\text{initial}} &\ge& T_{\min},\\
     \delta s_{i,t} &=&  \kappa\, \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1}\right).\\
 \end{eqnarray}
+The unlocking time $T_i$ means either the unlocking time if the miner is in steady state mode,
+or the time left to unlock the coins if the miner is in ramp down mode.
+The initial $T_i$ cannot be smaller than $1$~month,
+but it can become smaller than that during the ramp down.
 
 This has implications on the global token economy.
 Firstly, if stakers, despite smaller reward, prefer to stake for shorter, that creates smaller daily token supply.
