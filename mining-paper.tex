@@ -137,11 +137,16 @@ The inflation, depending on time passed from the Genesis $t$, looks like:
 \begin{equation}
     I(t) = I_0 \cdot 2^{-\frac{t}{T_{1/2}}} = I_0 \exp\left[ -\ln{2} \frac{t}{T_{1/2}} \right].
 \end{equation}
-In this case, maximum token supply (e.g. the maximum number of tokens which will ever be created) is:
+In this case, the dependence of the token supply on the time $t$ is:
 \begin{equation}
-    S_{\max} = S_0 + \int_0^{\infty} I(t)\, dt = S_0 + \frac{I_0 T_{1/2}}{\ln{2}} \approx 3.89\, S_0,
+    \label{eq:supply-time}
+    S(t) = S_0 + \int_0^{t} I(t)\, dt = S_0 + \frac{I_0 T_{1/2}}{\ln{2}}\left[1 - 2^{-\frac{t}{T_{1/2}}} \right],
 \end{equation}
-where $S_0$ is initial number of tokens, and $I_0 = S_0$ when the former is expressed in APR.
+Conveniently, $I_0=100\%$~APR is $I_0=S_0$~per~year, and the maximum number of tokens which will ever be created is:
+\begin{equation}
+    S_{\max} = S(\infty) = S_0\left(1 + \frac{T_{1/2}}{\ln{2}}\right) \approx 3.89\, S_0,
+\end{equation}
+where $S_0$ is initial number of tokens.
 
 \subsection{Implementation of the exponential decay in a smart contract}
 
@@ -172,7 +177,7 @@ So, the individual daily reward rate for a miner looks as:
 \begin{eqnarray}
     \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1) - T_{\min}}{T_1 - T_{\min}}\right)\\
     T_i &\ge& T_{\min},\\
-    ds_{i,t} &=&  \kappa\, \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1}\right).\\
+    \delta s_{i,t} &=&  \kappa\, \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1}\right).\\
 \end{eqnarray}
 
 This has implications on the global token economy.
@@ -188,10 +193,24 @@ In this section, we look at three possibilities: miner taking all the block rewa
 the node down to get all the coins unlocked after the time $T$ (as well as the rewards).
 Every of these possibilities could have different distributions of $\kappa$.
 Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
-Let's take amount of coins locked to be $60\%$, as in DASH.
+Let's take amount of coins locked to be $\lambda=60\%$, as in DASH.
 We'll plot graphs of daily rewards, as well as calculate the rewards during the first year in each of these scenarios.
 
-\subsection{Take mining rewards}
+\subsection{Withdraw mining rewards}
+
+This is the simplest case.
+The amount of coins staked can be expressed as $L=\lambda S$.
+The amount of stake stays constant in this case and equal to $s_i = l$, and the mining rate (e.g. the cumulative rewards) is:
+\begin{equation}
+    \frac{dr}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
+\end{equation}
+When we substitute $S(t)$ from Eq.~\ref{eq:supply-time} and integrate over time, we find total rewards:
+\begin{equation}
+    r(t) = \frac{\kappa}{\lambda} l \ln\frac{S(t)}{S_0}.
+\end{equation}
+If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
+miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
+or $100.2\%$ during the first year of staking.
 
 \subsection{Restake mining rewards}
 
