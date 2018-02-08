@@ -231,6 +231,10 @@ or $l(1) - l(0) = 177.5\%$ during the first year of staking.
 
 \subsection{Take mining rewards and spindown}
 
+When the node spins down, its rewards are constantly decreased because the time left to unlock becomes smaller and smaller,
+effectively decreasing $\kappa$ gradually towards $0.5$,
+as well as the stake is linearly decreased towards zero.
+
 \section{Edge cases: connection problems, vesting during unlocking}
 
 \section{TLDR}
