@@ -196,7 +196,7 @@ Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
 Let's take amount of coins locked to be $\lambda=60\%$, as in DASH.
 We'll plot graphs of daily rewards, as well as calculate the rewards during the first year in each of these scenarios.
 
-\subsection{Withdraw mining rewards}
+\subsection{Withdraw mining compensation}
 
 This is the simplest case.
 The amount of coins staked can be expressed as $L=\lambda S$.
@@ -208,11 +208,26 @@ When we substitute $S(t)$ from Eq.~\ref{eq:supply-time} and integrate over time,
 \begin{equation}
     r(t) = \frac{\kappa}{\lambda} l \ln\frac{S(t)}{S_0}.
 \end{equation}
+
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
 miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
 or $100.2\%$ during the first year of staking.
 
-\subsection{Restake mining rewards}
+\subsection{Restake mining compensation}
+
+Instead of taking all the mining compensation, it could be restaked into the node in order to get even more jobs and, provided that the hardware is maintained
+powerful enough to cope with those, get even higher compensation.
+In this case, the actual stake $l$ is constantly increasing with time:
+\begin{equation}
+    \frac{dl}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
+\end{equation}
+If we substitute $S(t)$ from Eq.~\ref{eq:supply-time} and solve this differential equation against $l$, we get:
+\begin{equation}
+    l(t) = l(0)\,\left[ \frac{S(t)}{S_0} \right]^{\frac{\kappa}{\lambda}}.
+\end{equation}
+If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
+miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
+or $l(1) - l(0) = 177.5\%$ during the first year of staking.
 
 \subsection{Take mining rewards and spindown}
 
