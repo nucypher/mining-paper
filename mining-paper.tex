@@ -241,6 +241,23 @@ as well as the stake is linearly decreased towards zero.
 
 \section{Edge cases: connection problems, vesting during unlocking}
 
+If the miner is found to be non-operational and/or cannot confirm the activity, the coins aren't unlocked during the mining period when that happens (and the
+rewards aren't mined).
+It's not too bad for the miner if that happens, however one cannot lock coins for mining and get them unlocked, even without getting staking rewards.
+So if the miner commits to stake for at least a year, it implies the year of operation.
+
+Another question is what happens if during the spindown time, the miner decides to add some tokens to his stake.
+Once spindown has started, the absolute spindown rate $dl/dt$ is specified.
+Adding coins to the stake during spindown doesn't change this rate, unless keeping the rate constant makes the unlocking time larger than $T$:
+in this case, the spindown rate is increased.
+In other words, if the staker adds to the stake during the spindown, the initial unlocking rate $dl/dt$ and the rate after adding to the stake
+$(dl/dt)^{\prime}$ are:
+\begin{eqnarray}
+    \frac{dl}{dt} &=& \frac{l_0}{T},\\
+    \left(\frac{dl}{dt}\right)^{\prime} &=& \min\left( \frac{dl}{dt}, \frac{l}{T}\right);
+\end{eqnarray}
+where $l_0$~--- initial stake, $l$~--- stake which is still locked, $T$~--- unlocking time.
+
 \section{TLDR}
 
 \bibliography{mining-paper}
