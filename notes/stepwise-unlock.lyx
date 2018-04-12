@@ -75,6 +75,39 @@ Staking: step-wise unlock
 \end_layout
 
 \begin_layout Standard
+Ursula stakes her tokens by locking until the time she specifies (
+\begin_inset Formula $t_{1}$
+\end_inset
+
+).
+ If the current time is 
+\begin_inset Formula $t$
+\end_inset
+
+, and if the function 
+\begin_inset Formula $\text{rate}(t_{1}-t)$
+\end_inset
+
+ calculates the minting rate depending on the time left to unlock, Ursula's
+ reward rate will be 
+\begin_inset Formula $r=\text{S\cdot rate}(t_{1}-t)$
+\end_inset
+
+, where 
+\begin_inset Formula $S$
+\end_inset
+
+ is her stake (Fig.
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:one-stake"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement H
 wide false
@@ -101,6 +134,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:one-stake"
+
+\end_inset
+
 Ursula started staking at 
 \begin_inset Formula $time=0$
 \end_inset
@@ -148,6 +187,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:two-stakes"
+
+\end_inset
+
 Ursula splits her stake 
 \begin_inset Formula $S$
 \end_inset
@@ -196,7 +241,88 @@ and has a higher reward rate
 \end_layout
 
 \begin_layout Standard
+At any time, Ursula can divide her stake 
+\begin_inset Formula $S$
+\end_inset
 
+ into parts 
+\begin_inset Formula $S_{1}\ldots S_{n}$
+\end_inset
+
+(increasing 
+\begin_inset Formula $n$
+\end_inset
+
+ by 
+\begin_inset Formula $1$
+\end_inset
+
+ at a time).
+ Each substake should be sufficiently large: 
+\begin_inset Formula $S_{i}\ge S_{\min}$
+\end_inset
+
+, and sum of all substakes is equal to 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Current state of staking can be represented by pairs stake - unlocking time:
+\end_layout
+
+\begin_layout Verbatim*
+{
+\end_layout
+
+\begin_layout Verbatim*
+    t_1: S_1,
+\end_layout
+
+\begin_layout Verbatim*
+    t_2: S_2,
+\end_layout
+
+\begin_layout Verbatim*
+    ...
+\end_layout
+
+\begin_layout Verbatim*
+    t_n: S_n
+\end_layout
+
+\begin_layout Verbatim*
+}
+\end_layout
+
+\begin_layout Standard
+Any part of the stake 
+\begin_inset Formula $S_{i}$
+\end_inset
+
+can be split up into two pieces no less than 
+\begin_inset Formula $S_{\min}$
+\end_inset
+
+where each piece 
+\begin_inset Formula $S_{i}^{\prime}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{i}^{\prime\prime}$
+\end_inset
+
+has unlock time no less than 
+\begin_inset Formula $t_{i}$
+\end_inset
+
+, and 
+\begin_inset Formula $S_{i}^{\prime}+S_{i}^{\prime\prime}=S_{i}$
+\end_inset
+
+.
 \end_layout
 
 \end_body
