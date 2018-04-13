@@ -142,9 +142,10 @@ In this case, the dependence of the token supply on the time $t$ is:
     \label{eq:supply-time}
     S(t) = S_0 + \int_0^{t} I(t)\, dt = S_0 + \frac{I_0 T_{1/2}}{\ln{2}}\left[1 - 2^{-\frac{t}{T_{1/2}}} \right],
 \end{equation}
-Conveniently, $I_0=100\%$~APR is $I_0=S_0$~per~year, and the maximum number of tokens which will ever be created is:
+Let's call relative initial annual inflation $i_0$, and then $I_0 = i_0 S_0$.
+For $100\%$~APR, $i_0=1$ and $I_0=S_0$~per~year, and the maximum number of tokens which will ever be created is:
 \begin{equation}
-    S_{\max} = S(\infty) = S_0\left(1 + \frac{T_{1/2}}{\ln{2}}\right) \approx 3.89\, S_0,
+    S_{\max} = S(\infty) = S_0\left(1 + \frac{i_0 T_{1/2}}{\ln{2}}\right) \approx 3.89\, S_0,
 \end{equation}
 where $S_0$ is initial number of tokens.
 
@@ -188,8 +189,14 @@ This has implications on the global token economy.
 Firstly, if stakers, despite smaller reward, prefer to stake for shorter, that creates smaller daily token supply.
 Since this usually should coincide with bear market, reducing the issuance during that time sounds like a good idea.
 
-Interestingly enough, $\kappa < 1$ prolongs the reward half-decay time $T_{1/2}^* = T_{1/2} / \kappa$.
-If all the stakers have $\kappa = 0.5$, this prolongs $T_{1/2}$ to be $4$~years instead of $2$.
+Interestingly enough, $\kappa < 1$ prolongs the reward half-decay time $T_{1/2}^* = T_{1/2} / \kappa^*$, where $\kappa^*$ is the mean staking parameter.
+If all the stakers have $\kappa^* = \kappa = 0.5$, this prolongs $T_{1/2}$ to be $4$~years instead of $2$.
+
+The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will then look like:
+\begin{equation}
+    \label{eq:adjusted-supply-time}
+    S(t) = S_0 \left[1 + \frac{i_0 \kappa^* T_{1/2}^*}{\ln{2}}\left(1 - 2^{-\frac{t}{T_{1/2}^*}} \right) \right].
+\end{equation}
 
 \section{Mining strategies and expected rewards}
 
@@ -203,19 +210,22 @@ We'll plot graphs of daily rewards, as well as calculate the rewards during the 
 \subsection{Withdraw mining compensation}
 
 This is the simplest case.
-The amount of tokens staked can be expressed as $L=\lambda S$.
+The total amount of tokens staked in the network can be expressed as $L=\lambda S$.
 The amount of stake stays constant in this case and equal to $s_i = l$, and the mining rate (e.g. the cumulative rewards) is:
 \begin{equation}
     \frac{dr}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
 \end{equation}
-When we substitute $S(t)$ from Eq.~\ref{eq:supply-time} and integrate over time, we find total rewards:
+When we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and integrate over time, we find total rewards:
 \begin{equation}
-    r(t) = \frac{\kappa}{\lambda} l \ln\frac{S(t)}{S_0}.
+    r(t) = l \frac{\kappa}{\kappa^* \lambda} \ln\frac{S(t)}{S_0}.
 \end{equation}
 
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
 miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
 or $100.2\%$ during the first year of staking.
+
+We should note that if other miners stake for less than a year ($\kappa^* < 1$), the inflation rate decays slower, and the compensation over a given period
+will be higher.
 
 \subsection{Restake mining compensation}
 
@@ -225,9 +235,9 @@ In this case, the actual stake $l$ is constantly increasing with time:
 \begin{equation}
     \frac{dl}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
 \end{equation}
-If we substitute $S(t)$ from Eq.~\ref{eq:supply-time} and solve this differential equation against $l$, we get:
+If we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and solve this differential equation against $l$, we get:
 \begin{equation}
-    l(t) = l(0)\,\left[ \frac{S(t)}{S_0} \right]^{\frac{\kappa}{\lambda}}.
+    l(t) = l(0)\,\left[ \frac{S(t)}{S_0} \right]^{\frac{\kappa}{\kappa^* \lambda}}.
 \end{equation}
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
 miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
