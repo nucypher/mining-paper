@@ -49,11 +49,11 @@ But initially, when the adoption isn't yet high, miners who run the nodes necess
 will need to be subsidised.
 This will be done through an inflation schedule, where all the inflation is given back to miners.
 
-Distribution of rewards should have the following properties:
+Distribution of miner compensations should have the following properties:
 \begin{itemize}
     \item All the inflation is distributed to stakers who run the nodes, proportionally to their stake;
     \item The amount of work (and, hence, fees earned) is proportional to stake;
-    \item Stakers are incentivized (by a higher reward rate) to run long-term nodes;
+    \item Stakers are incentivized (by a higher compensation rate) to run long-term nodes;
     \item High inflation doesn't depreciate the price in order to keep liquidity for new stakers;
     \item Stakers are incentivized to stay online all the time.
 \end{itemize}
@@ -108,7 +108,7 @@ Number of coins locked for staking $l$ should be no less than some value $S_{\mi
 
 At any point a miner can split his stake or any piece of his stake into two pieces~(\figref{fig:mining-modes}).
 The size of each piece should be not less than $S{\min}$.
-The reason for the possibility of that splitting is dependence of reward rate on the lock time $T$, which we'll discuss later.
+The reason for the possibility of that splitting is dependence of compensation rate on the lock time $T$, which we'll discuss later.
 At any point the miner can increase (but not decrease) $T$ and add more coins to stake.
 
 \section{General inflation properties}
@@ -129,7 +129,7 @@ To be on the safe side, we choose the starting inflation to be $I_0=100\%$~APR (
 \subsection{Inflation decay}
 
 Initially, the inflation subsidises mining, but payments for re-encryption services will generate the majority or all the revenues of miners in the long run.
-If all miners have the same, maximum reward rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
+If all miners have the same, maximum compensation rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
 The inflation, depending on time passed from the Genesis $t$, looks like:
 \begin{equation}
     I(t) = I_0 \cdot 2^{-\frac{t}{T_{1/2}}} = I_0 \exp\left[ -\ln{2} \frac{t}{T_{1/2}} \right].
@@ -202,22 +202,24 @@ The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will t
 
 \section{Mining strategies and expected compensations}
 
-In this section, we look at three possibilities: miner taking all the block rewards, miner adding all the compensation to what's currently staked and miner spinning
-the node down to get all the tokens unlocked after the time $T$ (as well as the rewards).
+In this section, we look at three possibilities:
+miner taking all the compensation while extending the lock time,
+miner adding all the compensation to what's currently staked
+and miner waiting for the node to stop to get all the tokens unlocked after the time $T$ (while taking the compensation).
 Every of these possibilities could have different distributions of $\kappa$.
 Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
 Let's take amount of tokens locked to be $\lambda=60\%$, as in DASH.
-We'll plot graphs of daily rewards, as well as calculate the rewards during the first year in each of these scenarios.
+We'll plot graphs of daily compensation, as well as calculate the compensation during the first year in each of these scenarios.
 
 \subsection{Withdraw mining compensation}
 
 This is the simplest case.
 The total amount of tokens staked in the network can be expressed as $L=\lambda S$.
-The amount of stake stays constant in this case and equal to $s_i = l$, and the mining rate (e.g. the cumulative rewards) is:
+The amount of stake stays constant in this case and equal to $s_i = l$, and the mining rate (e.g. the cumulative compensation) is:
 \begin{equation}
     \frac{dr}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
 \end{equation}
-When we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and integrate over time, we find total rewards:
+When we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and integrate over time, we find total compensation:
 \begin{equation}
     r(t) = l \frac{\kappa}{\kappa^* \lambda} \ln\frac{S(t)}{S_0}.
 \end{equation}
@@ -245,18 +247,18 @@ If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in
 miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
 or $l(1) - l(0) = 177.5\%$ during the first year of staking.
 
-\subsection{Take mining rewards and spindown}
+\subsection{Take mining compensation and spindown}
 
 When the node spins down, the miner doesn't extend the time for end of staking $t_1$,
-and rewards are constantly decreased because the time left to unlock becomes smaller and smaller,
+and the compensation is constantly decreased because the time left to unlock becomes smaller and smaller,
 effectively decreasing $\kappa$ gradually towards $0.5$.
 That's the default behavior: to avoid that, the miner should set $t_1$ large enough, or increase $t_1$ periodically.
 
 \subsection{Edge case: connection problems}
 
 If the miner is found to be non-operational and/or cannot confirm the activity, the tokens aren't unlocked during the mining period when that happens (and the
-rewards aren't mined).
-It's not too bad for the miner if that happens, however one cannot lock tokens for mining and get them unlocked, even without getting staking rewards.
+compensation isn't given).
+It's not too bad for the miner if that happens, however one cannot lock tokens for mining and get them unlocked, even without getting the compensation.
 So if the miner commits to stake for at least a year, it implies a year of operation.
 
 The ``connection problems'' may also be the time when the miner upgrades the software, which is an absolutely legitimate reason to be offline for a short time.
@@ -267,7 +269,8 @@ The ``connection problems'' may also be the time when the miner upgrades the sof
 It depends on how early you start (the earlier, the better), and for how long you commit to provide re-encryption services.
 If you commit to work for $1$~month, you'll be getting approximately $54\%$ of what you'll be getting if you commit for $1$~year or more.
 Also the compensation is inversely proportional to the total amount of tokens staked by all the participants.
-Finally, if you choose to automatically add the tokens earned to the stake, this will increase the rewards because your stake will be increasing as well.
+Finally, if you choose to automatically add the tokens earned to the stake, this will increase the total compensation because your stake will be increasing as
+well as the amount of job done for the network.
 
 For example, if $60\%$ of tokens in the system are always staked, you'd be earning $0.46\%$ in day $1$.
 With this amount of stakers, if you withdraw all the earned tokens instead of re-staking them, in the first year you'd earn $100.2\%$ of your stake.
