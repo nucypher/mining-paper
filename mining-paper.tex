@@ -167,11 +167,17 @@ Instead of calculating all the sum over $i$, each miner $i$ can add her portion 
 
 \subsection{Mining rate and staking time}
 
+\begin{figure}
+    \includegraphics[width=\columnwidth]{pdf/rate.pdf}
+    \caption{Dependence of the compensation rate on staking duration. We assume $60\%$ of all tokens locked for staking}
+    \label{fig:reward-rate-vs-duration}
+\end{figure}
+
 We want to incentivize miners to keep serving re-encryption policies for at least $1$~year.
 However, short-term stakers are still useful and should be rewarded.
-We will give the full reward ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
-however those who stake for $T_{\min}=1$~month will get close to half the reward ($\kappa\approx0.54$).
-The individual daily reward rate for a miner looks as:
+We will give the full compensation ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
+however those who stake for $T_{\min}=1$~month will get close to half the compensation ($\kappa\approx0.54$) (\figref{fig:reward-rate-vs-duration}).
+The individual daily compensation rate for a miner looks as:
 \begin{eqnarray}
     \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1)}{T_1}\right)\\
     T_{i,\text{initial}} &\ge& T_{\min},\\
@@ -182,10 +188,10 @@ The initial $T_i$ cannot be set smaller than $1$~month,
 but it eventually becomes smaller than that as the time goes on, and the miner gets close to unlocking the stake.
 
 This has implications on the global token economy.
-Firstly, if stakers, despite smaller reward, prefer to stake for shorter, that creates smaller daily token supply.
+Firstly, if stakers, despite smaller compensation, prefer to stake for shorter, that creates smaller daily token supply.
 Since this usually should coincide with bear market, reducing the issuance during that time sounds like a good idea.
 
-Interestingly enough, $\kappa < 1$ prolongs the reward half-decay time $T_{1/2}^* = T_{1/2} / \kappa^*$, where $\kappa^*$ is the mean staking parameter.
+Interestingly enough, $\kappa < 1$ prolongs the compensation half-decay time $T_{1/2}^* = T_{1/2} / \kappa^*$, where $\kappa^*$ is the mean staking parameter.
 If all the stakers have $\kappa^* = \kappa = 0.5$, this prolongs $T_{1/2}$ to be $4$~years instead of $2$.
 
 The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will then look like:
@@ -194,9 +200,9 @@ The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will t
     S(t) = S_0 \left[1 + \frac{i_0 \kappa^* T_{1/2}^*}{\ln{2}}\left(1 - 2^{-\frac{t}{T_{1/2}^*}} \right) \right].
 \end{equation}
 
-\section{Mining strategies and expected rewards}
+\section{Mining strategies and expected compensations}
 
-In this section, we look at three possibilities: miner taking all the block rewards, miner adding all the rewards to what's currently staked and miner spinning
+In this section, we look at three possibilities: miner taking all the block rewards, miner adding all the compensation to what's currently staked and miner spinning
 the node down to get all the tokens unlocked after the time $T$ (as well as the rewards).
 Every of these possibilities could have different distributions of $\kappa$.
 Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
