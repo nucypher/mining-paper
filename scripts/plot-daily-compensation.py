@@ -64,4 +64,4 @@ if __name__ == '__main__':
     plot(reward=0.5 * (1 + 1./12), color='red', linestyle='--', label='1 month staking')
     label()
     plt.legend()
-    plt.savefig('staking-reward.pdf')
+    plt.savefig('daily-compensation.pdf')

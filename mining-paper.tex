@@ -219,6 +219,14 @@ The amount of stake stays constant in this case and equal to $s_i = l$, and the 
 \begin{equation}
     \frac{dr}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
 \end{equation}
+Daily compensation $dr/dt$ plotted for $\lambda=0.6$ is shown on \figref{fig:daily-compensation}.
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{pdf/daily-compensation.pdf}
+    \caption{Daily compensation over time assuming $60\%$ tokens locked for lock times of $1$~year and $1$~month}
+    \label{fig:daily-compensation}
+\end{figure}
+
 When we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and integrate over time, we find total compensation:
 \begin{equation}
     r(t) = l \frac{\kappa}{\kappa^* \lambda} \ln\frac{S(t)}{S_0}.
@@ -246,6 +254,15 @@ If we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and solve this di
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
 miner's compensation starts from $0.46\%$~per~day in NKMS tokens,
 or $l(1) - l(0) = 177.5\%$ during the first year of staking.
+The difference between restaking and taking the reward is shown at~\figref{fig:total-compensation}.
+
+
+\begin{figure}
+    \includegraphics[width=\columnwidth]{pdf/total-compensation.pdf}
+    \caption{Total amount of compensation produced by staking with relocking (blue) and without (red),
+        when staking for $1$~year or more (solid lines) or $1$~month.}
+    \label{fig:total-compensation}
+\end{figure}
 
 \subsection{Take mining compensation and spindown}
 
