@@ -54,7 +54,7 @@ def plot(tmax=5, reward=my_reward, **kw):
 
 
 def label():
-    plt.title('Daily reward rate')
+    # plt.title('Daily reward rate')
     plt.xlabel('Time (years)')
     plt.ylabel('Daily reward rate (%)')
 

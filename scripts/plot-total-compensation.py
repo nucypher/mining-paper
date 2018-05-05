@@ -58,7 +58,7 @@ def plot(tmax=5, reward=my_reward, f=None, **kw):
 
 
 def label():
-    plt.title('Total compensation mined')
+    # plt.title('Total compensation mined')
     plt.xlabel('Time (years)')
     plt.ylabel('Compensation (%)')
 
