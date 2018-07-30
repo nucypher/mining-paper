@@ -1,6 +1,6 @@
 \documentclass[longbibliography,nofootinbib,twocolumn]{revtex4-1}
 
-\newcommand{\kms}{NuCypher}
+\newcommand{\nucypher}{NuCypher}
 
 \usepackage{listings}
 \usepackage{graphicx}
@@ -13,7 +13,7 @@
 \definecolor{darkgreen}{rgb}{0.00,0.50,0.25}
 \definecolor{darkblue}{rgb}{0.00,0.00,0.67}
 \newcommand{\figref}[1]{Fig.~\ref{#1}}
-\usepackage[breaklinks,pdftitle={NuCypher: Mining \& Token Economics}, pdfauthor={Michael Egorov},colorlinks,urlcolor=blue,citecolor=darkgreen,linkcolor=darkblue]{hyperref}
+\usepackage[breaklinks,pdftitle={NuCypher: Mining \& Staking Economics}, pdfauthor={Michael Egorov, MacLane Wilkison},colorlinks,urlcolor=blue,citecolor=darkgreen,linkcolor=darkblue]{hyperref}
 \graphicspath{{pdf/}}
 
 \usepackage[T1]{fontenc}
@@ -26,14 +26,14 @@
 
 \begin{document}
 
-\title{\kms: Mining \& Token Economics}
+\title{\nucypher: Mining \& Staking Economics}
 
-\author{Michael Egorov}
-\email{michael@nucypher.com}
+\author{Michael Egorov, MacLane Wilkision}
+\email{michael@nucypher.com, maclane@nucypher.com}
 \affiliation{NuCypher}
 
 \begin{abstract}
-This paper describes mining mechanisms and economics in the \kms~network.
+This paper describes mining mechanisms and economics in the \nucypher~network.
 The paper covers inflation rates, mechanisms to incentivize staking over the long-term,
 and estimates of the number of tokens that will be earned by nodes running in typical modes.
 Finally, a number of price volatility mitigation strategies are proposed.
@@ -44,8 +44,8 @@ Finally, a number of price volatility mitigation strategies are proposed.
 
 \section{Motivation}
 
-As the number of developers and applications using \kms~grows, payment for re-encryption services (`network fees') will account for an increasing proportion of earnings made by network nodes.
-However, before developer adoption has reached a sufficient threshold, nodes must be incentivized via block reward subsidy.
+Upon deployment of the \nucypher~network, and as the number of developers and applications using \nucypher~grows, payment for re-encryption services (`network fees') will account for an increasing proportion of earnings made by network nodes.
+However, before developer adoption has reached a sufficient threshold, nodes must be incentivized via a block compensation subsidy.
 This can be achieved via an inflation schedule that is distributed exclusively to miners.
 
 An ideal compensation model should have the following properties:
@@ -116,7 +116,7 @@ At any point the miner can increase (but not decrease) $T$ and add more tokens t
 
 \subsection{Initial inflation}
 
-Let's assume that \kms~will have the same number of tokens locked as DASH: $\lambda=60\%$.
+Let's assume that \nucypher~will have the same number of tokens locked as DASH: $\lambda=60\%$.
 Thus, we'll have $1-\lambda=40\%$ in circulation.
 If the inflation rate is $I$, then the adjusted inflation rate (i.e. inflation as if the locked tokens didn't exist) of tokens in circulation will be:
 \begin{equation}
@@ -175,7 +175,7 @@ Instead of calculating all the sum over $i$, each miner $i$ can add her portion 
 \end{figure}
 
 We want to incentivize miners to serve re-encryption policies for at least $1$~year.
-However, short-term stakers are still useful and should be rewarded.
+However, short-term stakers are still useful and should be compensated.
 We will give the full compensation ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
 however those who stake for $T_{\min}=1$~month will get close to half the compensation ($\kappa\approx0.54$) (\figref{fig:reward-rate-vs-duration}).
 The individual daily compensation rate for a miner looks as:
@@ -244,7 +244,7 @@ will be higher.
 \subsection{Restake mining compensation}
 
 Instead of liquidating mining compensation, it could be restaked into the node in order to increase the miner's stake and, provided the node's hardware is
-powerful enough to support the additional workload, get higher compensation.
+powerful enough to support the additional workload, earn higher compensation.
 In this case, the actual stake $l$ is constantly increasing with time:
 \begin{equation}
     \frac{dl}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
@@ -256,7 +256,7 @@ If we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and solve this di
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
 miner's compensation starts from $0.46\%$~per~day in NU tokens,
 or $l(1) - l(0) = 177.5\%$ during the first year of staking.
-The difference between restaking and taking the reward is shown at~\figref{fig:total-compensation}.
+The difference between restaking and taking the compensation is shown at~\figref{fig:total-compensation}.
 
 
 \begin{figure}
@@ -275,7 +275,7 @@ That's the default behavior: to avoid that, the miner should set $t_1$ large eno
 
 \subsection{Edge case: connection problems}
 
-If a miner is found to be non-operational and/or cannot confirm its activity, the tokens aren't unlocked (and compensation isn't earned).
+If a miner is found to be non-operational and/or cannot confirm its continued performance, the tokens aren't unlocked (and compensation isn't earned).
 It's not fatal for the miner if that happens (i.e. their entire stake won't be slashed), however their tokens will remain locked without earning compensation,
 until they satisfy their commitment.
 So if the miner commits to stake for at least a year, it implies a year of operation.
@@ -284,7 +284,7 @@ Connection problems may also be downtime when the miner upgrades their node's so
 
 \section{TLDR}
 
-\subsection{How much will I be earnining if I run a node?}
+\subsection{How much will I be compensated if I run a node?}
 It depends on how early you start (the earlier, the better), and for how long you commit to provide re-encryption services.
 If you commit to work for $1$~month, you'll be getting approximately $54\%$ of what you'll be getting if you commit for $1$~year or more.
 Also the compensation is inversely proportional to the total amount of tokens staked by all the participants.
@@ -299,31 +299,11 @@ But if you restake all your tokens, in the same first year you'd earn $177.5\%$ 
 We'll start with $1$~billion tokens, and the maximum amount of tokens ever mined will be $3.89$~billion.
 
 \subsection{What's the inflation rate?}
-The inflation rate will depend on how many short-term miners and long-term miners are in the system.
-Depending on this, the initial inflation will be between $50\%$~APR (when all miners are very short term) and $100\%$~APR (when everyone commits for a long
+The inflation rate will depend on how many short-term miners and long-term miners are working in the system.
+Depending on this, the initial inflation will be between $50\%$~APR (if all miners are very short term) and $100\%$~APR (if all miners commit for a long
 term).
 The inflation will decay exponentially every day, halving sometime between $2$~years (if all the miners are long term)
 and $4$~years (if all the miners are short term).
-
-\section{A word on token governance}
-
-As a decentralized network, the parameters of staking economics
-(as well as other network characteristics),
-should ultimately be determined by a consensus of the network's tokenholders.
-As described by Aragon~\cite{aragon} and 0x~\cite{zrx}, tokens backed by effective governance may benefit from the following properties:
-
-\begin{itemize}
-    \item Adaptability to changing market conditions;
-    \item Resistance to commoditization due to forks or competing networks;
-    \item More secure execution of protocol upgrades;
-    \item More representative token distribution across network stakeholders;
-\end{itemize}
-
-However, due to the industry's immature understanding of decentralized governance,
-we decline to implement full governance at the outset.
-A better approach is to introduce governance incrementally over time,
-to allow \kms~to benefit from the experience of other networks and emergent best practices,
-such as liquid democracy~\cite{liquid}.
 
 \bibliography{mining-paper}
 
