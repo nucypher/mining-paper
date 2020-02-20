@@ -42,20 +42,20 @@ This paper describes mechanisms in the \nucypher~network designed to incentivize
 
 \section{Motivation}
 
-As adoption of the \nucypher~network increases, payments for access control services (`fees') will account for an increasing proportion of the earnings made by network nodes. However, before adoption has reached a sufficient threshold, nodes must be incentivized and subsidized via a regular inflationary reward.
+If adoption of the \nucypher~network increases, payments for access control services (`fees') may account for an increasing proportion of the earnings made by network nodes. However, before adoption has reached a sufficient threshold, nodes must be incentivized and subsidized via a regular inflationary reward.
 This can be achieved through the scheduled growth of the native token's circulating supply, where newly minted tokens are distributed exclusively to active stakers.
 
-A inflationary reward model of this sort should have the following properties:
+An inflationary reward model of this sort should have the following properties:
 \begin{itemize}
     \item The amount of rewards distributed to stakers is proportional to the relative size of their stake;
     \item The amount of work assigned to stakers (and, generally, the sum of fees earned) is proportional to the relative size of their stake;
     \item Stakers are incentivized to stake for longer durations by a commensurately higher reward rate;
-    \item Short-term staking is also encouraged, albeit at a lower reward rate;
+    \item Short-term staking is acceptable, albeit at a lower reward rate;
     \item Epochs with higher levels of inflation do not significantly depreciate the native token price;
-    \item Stakers are incentivized to `re-stake' rewards in order to maximize their long-term compensation.
+    \item Stakers are incentivized to `re-stake' rewards in order to maximize their long-term stake in the network.
 \end{itemize}
 
-This paper presents mechanisms which address these objectives, derives the formulas governing global supply and individual reward dynamics, and provides compensation estimates for various staking strategies. The paper also details the rules and constraints of adjusting one's stake, and the corresponding impact on supply and rewards.
+This paper presents mechanisms which address these objectives, derives the formulas governing global supply and individual reward dynamics, and provides compensation estimates for various staking strategies. It also details the rules and constraints of adjusting one's stake, and the corresponding impact on supply and rewards.
 
 \section{Historical examples of inflation}
 
@@ -105,7 +105,7 @@ The number of coins locked for staking $l$ should be no less than $S_{\min}$.
 At any point, a staker can split their stake or any piece of their stake into two pieces~(\figref{fig:mining-modes}).
 The size of each piece should be not less than $S_{\min}$.
 The reason stakers may want to split their stake is because their compensation rate depends on the lock time $T$,
-which will be discussed in more details later.
+which will be discussed in more detail later.
 At any point the staker can increase (but not decrease) $T$ and add more tokens to their stake.
 
 \section{General inflation properties}
@@ -125,7 +125,7 @@ To err on the side of caution, we set the starting inflation to be $I_0=100\%$~A
 
 \subsection{Inflation decay}
 
-Initially, inflation subsidizes staking, but payments for re-encryption services will generate the majority or all of the revenues earned by stakers in the long run.
+Initially, inflation subsidizes staking, but payments for re-encryption services may generate the majority or all of the revenues earned by stakers in the long run as the inflation subsidy eventually runs out.
 If all staker earn the same, maximum compensation rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
 The inflation, depending on time passed from the Genesis $t$, looks like:
 \begin{equation}
@@ -174,7 +174,7 @@ We want to incentivize stakers to serve re-encryption policies for at least $1$~
 However, short-term stakers are still useful and should be compensated.
 We will give the full compensation ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
 however those who stake for $T_{\min}=1$~month will get close to half the compensation ($\kappa\approx0.54$) (\figref{fig:reward-rate-vs-duration}).
-The individual daily compensation rate for a staker looks as:
+The individual daily compensation rate for a staker is:
 \begin{eqnarray}
     \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1)}{T_1}\right)\\
     T_{i,\text{initial}} &\ge& T_{\min},\\
@@ -203,7 +203,7 @@ The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will t
 In this section, we look at three possibilities:
 a staker liquidating all the compensation while extending the lock time (Stake and Earn),
 a staker adding all the compensation to their current stake (Restake),
-and a staker waiting for their stake to unlock after time $T$ (Spindown).
+and a staker waiting for their stake to unlock after time $T$ (Wind down).
 Each of these possibilities could have different distributions of $\kappa$.
 Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
 Let's take the amount of tokens locked to be $\lambda=60\%$, as in DASH.
@@ -262,9 +262,9 @@ The difference between restaking and taking the compensation is shown at~\figref
     \label{fig:total-compensation}
 \end{figure}
 
-\subsection{Take compensation and spindown}
+\subsection{Take compensation and wind down}
 
-When the node spins down, the staker doesn't extend the time for end of staking $t_1$,
+When the node winds down, the staker doesn't extend the time for end of staking $t_1$,
 and the compensation is constantly decreasing as the time left to unlock becomes smaller and smaller,
 effectively decreasing $\kappa$ gradually towards $0.5$.
 That's the default behavior: to avoid that, the staker should set $t_1$ large enough, or increase $t_1$ periodically.
@@ -276,7 +276,7 @@ It's not fatal for the staker if that happens (i.e. their entire stake won't be 
 until they satisfy their commitment.
 So if the staker commits to stake for at least a year, it implies a year of operation.
 
-Connection problems may also be downtime when the staker upgrades their node's software, which is an absolutely legitimate reason to be offline for a short time.
+Connection problems may include downtime when the staker upgrades their node's software, which is a legitimate reason to be offline for a short time.
 
 \section{TLDR}
 
