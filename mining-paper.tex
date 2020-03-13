@@ -26,17 +26,15 @@
 
 \begin{document}
 
-\title{\nucypher: Mining \& Staking Economics}
+\title{\nucypher: Staking Economics \& Stake Management}
 
 \author{Michael Egorov, MacLane Wilkison}
 \email{michael@nucypher.com, maclane@nucypher.com}
 \affiliation{NuCypher}
 
 \begin{abstract}
-This paper describes mining mechanisms and economics in the \nucypher~network.
-The paper covers inflation rates, mechanisms to incentivize staking over the long-term,
-and estimates of the number of tokens that will be earned by nodes running in typical modes.
-Finally, a number of price volatility mitigation strategies are proposed.
+This paper describes mechanisms in the \nucypher~network designed to incentivize staking, including the regular distribution of an inflationary reward to active stakers, achieved via the growth of the native token's circulating supply. The paper explains the relationship between discretionary stake configurations and the staker's earning rate, in particular the extra incentive to commit to longer staking durations. Further rules for stake management, including the locking, unwinding and withdrawing of stake, are covered. The impact of these collective staker choices on the global supply dynamics is formally deduced. Finally, the paper provides an empirical rationale for the genesis inflation rate. 
+
 \end{abstract}
 
 \date{\today}
@@ -44,22 +42,20 @@ Finally, a number of price volatility mitigation strategies are proposed.
 
 \section{Motivation}
 
-Upon deployment of the \nucypher~network, and as the number of developers and applications using \nucypher~grows, payment for re-encryption services (`network fees') will account for an increasing proportion of earnings made by network nodes.
-However, before developer adoption has reached a sufficient threshold, nodes must be incentivized via a block compensation subsidy.
-This can be achieved via an inflation schedule that is distributed exclusively to miners.
+If adoption of the \nucypher~network increases, payments for access control services (`fees') may account for an increasing proportion of the earnings made by network nodes. However, before adoption has reached a sufficient threshold, nodes must be incentivized and subsidized via a regular inflationary reward.
+This can be achieved through the scheduled growth of the native token's circulating supply, where newly minted tokens are distributed exclusively to active stakers.
 
-An ideal compensation model should have the following properties:
+An inflationary reward model of this sort should have the following properties:
 \begin{itemize}
-    \item The inflation distributed to stakers is proportional to their stake;
-    \item The amount of work assigned to stakers (and, hence, compensation earned) is proportional to their stake;
-    \item Stakers are incentivized (by a higher compensation rate) to run nodes for longer periods;
-    \item Periods of high inflation do not significantly depreciate the token price, maintaining liquidity for new stakers;
-    \item Stakers are strongly incentivized to stay online all the time, in order to maximize availability to users requiring re-encryption services;
-    \item Stakers are incentivized to `re-stake' inflation compensation in order to maximize their long-term compensation;
-    \item Short-term staking is also encouraged and subsidized, albeit at a lower rate.
+    \item The amount of rewards distributed to stakers is proportional to the relative size of their stake;
+    \item The amount of work assigned to stakers (and, generally, the sum of fees earned) is proportional to the relative size of their stake;
+    \item Stakers are incentivized to stake for longer durations by a commensurately higher reward rate;
+    \item Short-term staking is acceptable, albeit at a lower reward rate;
+    \item Epochs with higher levels of inflation do not significantly depreciate the native token price;
+    \item Stakers are incentivized to `re-stake' rewards in order to maximize their long-term stake in the network.
 \end{itemize}
 
-This paper addresses each of these desired properties, calculates expected miner compensation, and devises optimal mining/staking strategies.
+This paper presents mechanisms which address these objectives, derives the formulas governing global supply and individual reward dynamics, and provides compensation estimates for various staking strategies. It also details the rules and constraints of adjusting one's stake, and the corresponding impact on supply and rewards.
 
 \section{Historical examples of inflation}
 
@@ -88,9 +84,9 @@ This corresponds to $360\%$~APR.
 It is even more remarkable given the fact that miners who mined ZEC are likely selling and exchanging the proceeds into other currencies to cover expenses.
 This gives us information about the maximum allowable inflation which doesn't create too much downward pressure on the price.
 
-\section{Mining protocol}
+\section{Staking protocol}
 
-A miner commits to stay available for at least time $T$.
+A staker commits to stay available for at least time $T$.
 For that, they specify an unlocking time $t_1$,
 where minimal lock time $t_1 - t$ should be not less than $T_{\min} = 1$~month.
 The number of coins locked for staking $l$ should be no less than $S_{\min}$.
@@ -106,11 +102,11 @@ The number of coins locked for staking $l$ should be no less than $S_{\min}$.
     \label{fig:mining-modes}
 \end{figure}
 
-At any point, a miner can split their stake or any piece of their stake into two pieces~(\figref{fig:mining-modes}).
+At any point, a staker can split their stake or any piece of their stake into two pieces~(\figref{fig:mining-modes}).
 The size of each piece should be not less than $S_{\min}$.
-The reason miners may want to split their stake is because their compensation rate depends on the lock time $T$,
-which will be discussed in more details later.
-At any point the miner can increase (but not decrease) $T$ and add more tokens to their stake.
+The reason stakers may want to split their stake is because their compensation rate depends on the lock time $T$,
+which will be discussed in more detail later.
+At any point the staker can increase (but not decrease) $T$ and add more tokens to their stake.
 
 \section{General inflation properties}
 
@@ -129,8 +125,8 @@ To err on the side of caution, we set the starting inflation to be $I_0=100\%$~A
 
 \subsection{Inflation decay}
 
-Initially, inflation subsidizes mining, but payments for re-encryption services will generate the majority or all of the revenues of miners in the long run.
-If all miners have the same, maximum compensation rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
+Initially, inflation subsidizes staking, but payments for re-encryption services may generate the majority or all of the revenues earned by stakers in the long run as the inflation subsidy eventually runs out.
+If all staker earn the same, maximum compensation rate, we choose the inflation rate to decay by factor of $2$ in $T_{1/2} = 2$ years.
 The inflation, depending on time passed from the Genesis $t$, looks like:
 \begin{equation}
     I(t) = I_0 \cdot 2^{-\frac{t}{T_{1/2}}} = I_0 \exp\left[ -\ln{2} \frac{t}{T_{1/2}} \right].
@@ -150,23 +146,23 @@ where $S_0$ is initial number of tokens.
 \subsection{Implementation of the exponential decay in a smart contract}
 
 Complex functions like exponentials, if implemented in smart contracts, would be quite costly.
-Fortunately, the exponential is a solution of a differential equation where inflation is proportional to the amount of not yet mined tokens:
+Fortunately, the exponential is a solution of a differential equation where inflation is proportional to the amount of not yet minted tokens:
 \begin{eqnarray}
     I(t) &=& \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t) \right)\\
     dS &=& I(t)\, dt,
 \end{eqnarray}
-where $S(t)$ is the current token supply with $S(0)=S_0$ and the time step $dt$ can actually be equal to the mining period ($1$~day).
-Each mining node can trivially calculate its $dS$ in a smart contract using very few operations and the coin supply $S$ from the last period.
-So, the amount of tokens mined for the node $i$ and the time period $t$ will be:
+where $S(t)$ is the current token supply with $S(0)=S_0$ and the time step $dt$ can actually be equal to the staking period ($1$~day).
+Each staking node can trivially calculate its $dS$ in a smart contract using very few operations and the coin supply $S$ from the last period.
+So, the amount of tokens distributed to the node $i$ and the time period $t$ will be:
 \begin{eqnarray}
     \label{eq:rate-max}
     ds_{i,t} &=& \frac{l_i}{L} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S_{t-1} \right),\\
     dS_t &=& \sum_i ds_{i,t},
 \end{eqnarray}
-where $l_i$ is the number of tokens locked by the miner $i$, $L$ is the total number of tokens locked.
-Instead of calculating all the sum over $i$, each miner $i$ can add her portion $ds_{i,t}$.
+where $l_i$ is the number of tokens locked by the staker $i$, $L$ is the total number of tokens locked.
+Instead of calculating all the sum over $i$, each staker $i$ can add her portion $ds_{i,t}$.
 
-\subsection{Mining rate and staking time}
+\subsection{Reward rate and commitment time}
 
 \begin{figure}
     \includegraphics[width=\columnwidth]{pdf/rate.pdf}
@@ -174,11 +170,11 @@ Instead of calculating all the sum over $i$, each miner $i$ can add her portion 
     \label{fig:reward-rate-vs-duration}
 \end{figure}
 
-We want to incentivize miners to serve re-encryption policies for at least $1$~year.
+We want to incentivize stakers to serve re-encryption policies for at least $1$~year.
 However, short-term stakers are still useful and should be compensated.
 We will give the full compensation ($\kappa=1$) to the stakers who are committed to stake at least $T_1=1$~year,
 however those who stake for $T_{\min}=1$~month will get close to half the compensation ($\kappa\approx0.54$) (\figref{fig:reward-rate-vs-duration}).
-The individual daily compensation rate for a miner looks as:
+The individual daily compensation rate for a staker is:
 \begin{eqnarray}
     \kappa &=& \left(0.5 + 0.5\frac{\min(T_i, T_1)}{T_1}\right)\\
     T_{i,\text{initial}} &\ge& T_{\min},\\
@@ -186,11 +182,11 @@ The individual daily compensation rate for a miner looks as:
 \end{eqnarray}
 The unlocking time $T_i$ means the time left to unlock the tokens $t_1 - t$.
 The initial $T_i$ cannot be set smaller than $1$~month,
-but it eventually becomes smaller than that as the time passes, and the miner gets close to unlocking the stake.
+but it eventually becomes smaller than that as time passes and the staker gets close to unlocking the stake.
 
 This has implications on the global token economy.
 Firstly, if stakers, despite smaller compensation, prefer to stake for shorter time periods, that results in a smaller daily token emmission.
-Since miners will likely prefer shorter stake times during bear markets, reducing the issuance rate during that time will provide better price support and stability
+Since stakers will likely prefer shorter stake times during bear markets, reducing the issuance rate during that time will provide better price support and stability
 as a side benefit.
 
 Interestingly, $\kappa < 1$ prolongs the compensation half-decay time $T_{1/2}^* = T_{1/2} / \kappa^*$, where $\kappa^*$ is the mean staking parameter.
@@ -202,22 +198,22 @@ The total supply over time (Eq.~\ref{eq:supply-time}) at $\kappa^* \ne 1$ will t
     S(t) = S_0 \left[1 + \frac{i_0 \kappa^* T_{1/2}^*}{\ln{2}}\left(1 - 2^{-\frac{t}{T_{1/2}^*}} \right) \right].
 \end{equation}
 
-\section{Mining strategies and expected compensation}
+\section{Staking strategies and expected compensation}
 
 In this section, we look at three possibilities:
-a miner liquidating all the compensation while extending the lock time (Stake and Earn),
-a miner adding all the compensation to their current stake (Restake),
-and a miner waiting for their stake to unlock after time $T$ (Spindown).
+a staker liquidating all the compensation while extending the lock time (Stake and Earn),
+a staker adding all the compensation to their current stake (Restake),
+and a staker waiting for their stake to unlock after time $T$ (Wind down).
 Each of these possibilities could have different distributions of $\kappa$.
 Let's consider $\kappa=1$ and $\kappa=0.5$ as two marginal values.
 Let's take the amount of tokens locked to be $\lambda=60\%$, as in DASH.
 We'll plot graphs of daily compensation, as well as calculate the compensation during the first year in each of these scenarios.
 
-\subsection{Stake and Earn: Liquidate mining compensation}
+\subsection{Stake and Earn: Liquidate compensation}
 
 This is the simplest case.
 The total amount of tokens staked in the network can be expressed as $L=\lambda S$.
-The amount of stake stays constant in this case and equal to $s_i = l$, and the mining rate (i.e. the cumulative compensation) is:
+The amount of stake stays constant in this case and equal to $s_i = l$, and the reward rate (i.e. the cumulative compensation) is:
 \begin{equation}
     \frac{dr}{dt} =  \kappa\, \frac{l}{\lambda S(t)} \frac{\ln{2}}{T_{1/2}} \left( S_{\max} - S(t)\right).
 \end{equation}
@@ -235,15 +231,15 @@ When we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and integrate o
 \end{equation}
 
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
-miner's compensation starts from $0.46\%$~per~day in NU tokens,
+staker's compensation starts from $0.46\%$~per~day in NU tokens,
 or $100.2\%$ during the first year of staking.
 
-We should note that if other miners stake for less than a year ($\kappa^* < 1$), the inflation rate decays slower, and the compensation over a given period
+We should note that if other stakers stake for less than a year ($\kappa^* < 1$), the inflation rate decays slower, and the compensation over a given period
 will be higher.
 
-\subsection{Restake mining compensation}
+\subsection{Restake rewards}
 
-Instead of liquidating mining compensation, it could be restaked into the node in order to increase the miner's stake and, provided the node's hardware is
+Instead of liquidating the compensation, it could be restaked in order to increase the stake size and, provided the node's hardware is
 powerful enough to support the additional workload, earn higher compensation.
 In this case, the actual stake $l$ is constantly increasing with time:
 \begin{equation}
@@ -254,7 +250,7 @@ If we substitute $S(t)$ from Eq.~\ref{eq:adjusted-supply-time} and solve this di
     l(t) = l(0)\,\left[ \frac{S(t)}{S_0} \right]^{\frac{\kappa}{\kappa^* \lambda}}.
 \end{equation}
 If $\kappa=1$ (staking for $1$~year+) and $\lambda=60\%$ ($60\%$ of all nodes in the network are staking),
-miner's compensation starts from $0.46\%$~per~day in NU tokens,
+the staker's compensation starts from $0.46\%$~per~day in NU tokens,
 or $l(1) - l(0) = 177.5\%$ during the first year of staking.
 The difference between restaking and taking the compensation is shown at~\figref{fig:total-compensation}.
 
@@ -266,21 +262,21 @@ The difference between restaking and taking the compensation is shown at~\figref
     \label{fig:total-compensation}
 \end{figure}
 
-\subsection{Take mining compensation and spindown}
+\subsection{Take compensation and wind down}
 
-When the node spins down, the miner doesn't extend the time for end of staking $t_1$,
+When the node winds down, the staker doesn't extend the time for end of staking $t_1$,
 and the compensation is constantly decreasing as the time left to unlock becomes smaller and smaller,
 effectively decreasing $\kappa$ gradually towards $0.5$.
-That's the default behavior: to avoid that, the miner should set $t_1$ large enough, or increase $t_1$ periodically.
+The default setting for all stakes is for $t_1$ to be automatically prolonged, which maintains the maximum reward rate ($\kappa$ = 1). Stakers wishing to withdraw must proactively initiate a wind down on some or all of their stake.
 
 \subsection{Edge case: connection problems}
 
-If a miner is found to be non-operational and/or cannot confirm its continued performance, the tokens aren't unlocked (and compensation isn't earned).
-It's not fatal for the miner if that happens (i.e. their entire stake won't be slashed), however their tokens will remain locked without earning compensation,
+If a staker is found to be non-operational and/or cannot confirm its continued performance, the tokens aren't unlocked (and compensation isn't earned).
+It's not fatal for the staker if that happens (i.e. their entire stake won't be slashed), however their tokens will remain locked without earning compensation,
 until they satisfy their commitment.
-So if the miner commits to stake for at least a year, it implies a year of operation.
+So if the staker commits to stake for at least a year, it implies a year of operation.
 
-Connection problems may also be downtime when the miner upgrades their node's software, which is an absolutely legitimate reason to be offline for a short time.
+Connection problems may include downtime when the staker upgrades their node's software, which is a legitimate reason to be offline for a short time.
 
 \section{TLDR}
 
@@ -296,14 +292,14 @@ With this amount of stakers, if you withdraw all the earned tokens instead of re
 But if you restake all your tokens, in the same first year you'd earn $177.5\%$ of the tokens you staked.
 
 \subsection{How many tokens will ever be in existence?}
-We'll start with $1$~billion tokens, and the maximum amount of tokens ever mined will be $3.89$~billion.
+We'll start with $1$~billion tokens, and the maximum amount of tokens ever minted and distributed will be $3.89$~billion.
 
 \subsection{What's the inflation rate?}
-The inflation rate will depend on how many short-term miners and long-term miners are working in the system.
-Depending on this, the initial inflation will be between $50\%$~APR (if all miners are very short term) and $100\%$~APR (if all miners commit for a long
+The inflation rate will depend on how many short-term stakers and long-term stakers are working in the system.
+Depending on this, the initial inflation will be between $50\%$~APR (if all stakers are very short term) and $100\%$~APR (if all stakers commit for a long
 term).
-The inflation will decay exponentially every day, halving sometime between $2$~years (if all the miners are long term)
-and $4$~years (if all the miners are short term).
+The inflation will decay exponentially every day, halving sometime between $2$~years (if all stakers are long term)
+and $4$~years (if all stakers are short term).
 
 \bibliography{mining-paper}
 
