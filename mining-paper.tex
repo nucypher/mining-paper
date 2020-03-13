@@ -267,7 +267,7 @@ The difference between restaking and taking the compensation is shown at~\figref
 When the node winds down, the staker doesn't extend the time for end of staking $t_1$,
 and the compensation is constantly decreasing as the time left to unlock becomes smaller and smaller,
 effectively decreasing $\kappa$ gradually towards $0.5$.
-That's the default behavior: to avoid that, the staker should set $t_1$ large enough, or increase $t_1$ periodically.
+The default setting for all stakes is for $t_1$ to be automatically prolonged, which maintains the maximum reward rate ($\kappa$ = 1). Stakers wishing to withdraw must proactively initiate a wind down on some or all of their stake.
 
 \subsection{Edge case: connection problems}
 
