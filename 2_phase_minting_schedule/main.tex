@@ -18,7 +18,7 @@ We propose a two-phase subsidy model to bootstrap the NuCypher network, the firs
     \label{fig:tp}
 \end{figure}
 
-Monetary policy designed for decentralized networks often make reference to a so-called `inflation rate'. In this model, phase one sees an \textbf{identical sum of tokens} minted in each period, so the effective `rate' at which the circulating supply grows decreases period-to-period (and year-to-year). In phase two, the number of tokens minted per day also decreases, which accelerates the decline in the supply growth rate. To avoid misleading terminology, the number of total tokens minted per day shall be hereafter referred to as the \textit{issuance}. Note that the effective growth rate of any given stake also decreases over time, the extent to which is subject to discretionary factors such as the percentage of tokens re-staked by the node operator. 
+Monetary policy designed for decentralized networks often make reference to a so-called `inflation rate'. In this model, phase one sees an \textbf{constant amount of tokens} minted in each period, so the effective `rate' at which the circulating supply grows decreases period-to-period (and year-to-year). In phase two, the number of tokens minted per day also decreases, which accelerates the decline in the supply growth rate. To avoid misleading terminology, the number of total tokens minted per day shall be hereafter referred to as the \textit{issuance}. Note that the effective growth rate of any given stake also decreases over time, the extent to which is subject to discretionary factors such as the percentage of tokens re-staked by the node operator. 
 \\\\
 In the NuCypher protocol, daily issuance is modified by the average stake lock-up duration, but for the sake of simplicity this paper initially discusses a scenario in which all node operators choose a lock-up of 12 months or longer. In reality, the average stake lock-up duration is likely to be lower, which would imply fewer tokens minted per day. This has an impact on the global economy and supply, but regardless, all node operators choose discretionary lock-up durations and receive commensurate subsidies.
 \\\\
@@ -30,10 +30,10 @@ The second section introduces reasoning for the two-phase model pertaining to ne
 
 These demand-related premises form the basis for the two-phase model: 
 \begin{enumerate}
-\item There is little certainty regarding the length of time that will elapse between the network's launch and the first trickle of demand from customers (developers, end-users \& others).
+\item There is little certainty regarding the length of time that will elapse between the network's launch and the development of meaningful demand from customers (developers, end-users \& others).
 \item This early-stage demand is particularly fragile, because new customers are naturally more fickle. Specifically, neither developers nor their end-users have compelling reasons to tolerate an inadequate service (e.g. too few stakers available to service a sharing policy), such as the sunk costs of integration, reliance on the service, or other forms of path dependency, all of which are more likely to play a role later in the network's lifetime. New customers also take a greater risk than later adopters, as they do not have the experience of existing customers as evidence of a reliable or valuable service.
 \item A popular subsidy model involves daily token issuance dropping exponentially, right from launch. If the fee market does not sufficiently mature in time to make up for the sharp reduction in earnings the early years of the network's existence, some node operations may be rendered entirely unsustainable. 
-\item Most importantly, some of NuCypher's early customers will (inflexibly) require long-lasting sharing policies. This means that the protocol must motivate the successive re-commitment to long token lock durations (i.e. staking for 12+ months) by a sufficient population of node operators. A diminished subsidy issuance, in lieu of a mature fee market, may not be enough to incentivize this repeated and essential re-commitment. 
+\item Most importantly, some of NuCypher's early customers may (inflexibly) require long-lasting sharing policies. This means that the protocol must motivate the successive re-commitment to long token lock durations (i.e. staking for 12+ months) by a sufficient population of node operators. A diminished subsidy issuance, in lieu of a mature fee market, may not be enough to incentivize this repeated and essential re-commitment. 
 \end{enumerate}
 
 \\\\
@@ -171,4 +171,3 @@ For reference, the supply in the second phase can be calculated with this equati
 Which implies that the rate of issuance decay is inversely proportional to $\kappa^*$. In a similar fashion to phase one, shorter average lock-ups slow down the minting of tokens. 
 
 \end{document}
-
