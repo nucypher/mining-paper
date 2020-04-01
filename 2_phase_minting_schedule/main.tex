@@ -4,61 +4,62 @@
 
 \title{Temporally equitable subsidies: a two-phase token minting schedule}
 \author{arjunhassard}
-\date{Feb 2020}
+\date{March 2020}
 \begin{document}
 \maketitle
 
-
 \section{Summary}
 
-The previous draft of NuCypher's subsidy (inflationary reward) model commences with an annual inflation `rate' of 100\% at network launch. The genesis rate then decays with a half-life of 2 years – i.e. it drops by a factor of 2 every other year. For example, on day 200 of the network, the annual inflation rate would be approximately 83\%.
+We propose a two-phase subsidy model to bootstrap the NuCypher network, the first phase comprising a \textit{stable issuance}, in which approximately 366 million new tokens are minted and distributed to active (staking) node operators every year in the first phase, set to 5 years. This is equivalent to expanding the supply by 1,002,509 tokens in each of the first 1825 periods (days). In the second phase, commencing on the first period of the fifth year, fewer tokens will be minted in each successive period, such that the daily minting figure decays exponentially with a half-life of 2 years. Over the course of the network's lifetime – as $t$ approaches $\infty$ – the circulating supply will approach a maximum of roughly 3.885 billion tokens. 
 
 \begin{figure}[h!]
-    \includegraphics[width=\textwidth]{Two_phase_inflation.png}
-    \caption{Illustration comparing the previous draft and two-phase model over the first 6 years of the network's lifetime.}
+    \includegraphics[width=\textwidth]{Two_phase_model.png}
+    \caption{Illustration comparing a two-phase model with a common subsidy model, over the first 6 years of the network's lifetime. Note that the y-axis refers to an absolute figure, not a rate.}
     \label{fig:tp}
 \end{figure}
 
-An alternative to the previous model is proposed here; a static (unchanging) inflation rate of \textbf{36.6\%} for the first 5 years, which implies the minting of approximately 366 million new tokens per year. From day one of the fifth year, the inflation rate will decay continuously with a half-life of 2 years, so fewer tokens are minted in each successive period. Over the course of the network's lifetime, a similar number of tokens will be minted as in the previous draft – i.e. as $t$ approaches $\infty$, the circulating supply will reach approximately 3.885 billion tokens. The next two sections provide a detailed rationale for the new, `two-phase' model, and the final section derives a new genesis inflation figure and presents a new minting schedule.
+Monetary policy designed for decentralized networks often make reference to a so-called `inflation rate'. In this model, phase one sees an \textbf{constant amount of tokens} minted in each period, so the effective `rate' at which the circulating supply grows decreases period-to-period (and year-to-year). In phase two, the number of tokens minted per day also decreases, which accelerates the decline in the supply growth rate. To avoid misleading terminology, the number of total tokens minted per day shall be hereafter referred to as the \textit{issuance}. Note that the effective growth rate of any given stake also decreases over time, the extent to which is subject to discretionary factors such as the percentage of tokens re-staked by the node operator. 
 \\\\
-Note that in both the previous draft and new model, the inflation rate, whatever it may be in a given moment, is always applied to the genesis supply, not the variable, time-dependent supply – a distinction that is explained further in the final section. This design choice means that the static phase of the two-phase model involves an \textbf{identical sum of tokens} minted and distributed in each period. Relatedly, this paper contains a secondary, semantic proposal; to refer to the parameters of subsidy provision as a \textit{minting schedule}, rather than a potentially misleading inflation `rate'. 
+In the NuCypher protocol, daily issuance is modified by the average stake lock-up duration, but for the sake of simplicity this paper initially discusses a scenario in which all node operators choose a lock-up of 12 months or longer. In reality, the average stake lock-up duration is likely to be lower, which would imply fewer tokens minted per day. This has an impact on the global economy and supply, but regardless, all node operators choose discretionary lock-up durations and receive commensurate subsidies.
 \\\\
-It is also worth noting that in the NuCypher protocol, the half-life variable $T_{1/2}$ is modified by the average token lock-up duration, but for the sake of simplicity this proposal discusses a scenario in which all node operators choose a minimum 12 month lock-up, which maintains $T_{1/2}$ at the minimum of $2$ years. In reality, the average lock-up duration may be lower, which makes the half-life greater, and the inflation rate decay slower. This dynamic is certainly applicable to the second phase of the two-phase model, but also may impact the minting schedule in the first (static) phase. The details of this will be published prior to network launch, but it's important to remember that regardless, all stakers retain the discretionary choice to token lock-ups of 12 months or longer and the commensurate maximum subsidy. 
+The second section introduces reasoning for the two-phase model pertaining to network demand, the protocol and node operation, the third introduces an empirical analysis of existing networks, and the final section derives parameters for the new minting schedule.
 
 \section{Motivation \& Rationale}
 
-\textit{Demand-oriented rationale}
-\\\\
-The following premises form the basis for this proposal: 
+\subsection{Demand uncertainty}
+
+These demand-related premises form the basis for the two-phase model: 
 \begin{enumerate}
-\item There is little certainty regarding the length of time that will elapse between the network's launch and the first trickle of demand from customers (developers, end-users \& others).
+\item There is little certainty regarding the length of time that will elapse between the network's launch and the development of meaningful demand from customers (developers, end-users \& others).
 \item This early-stage demand is particularly fragile, because new customers are naturally more fickle. Specifically, neither developers nor their end-users have compelling reasons to tolerate an inadequate service (e.g. too few stakers available to service a sharing policy), such as the sunk costs of integration, reliance on the service, or other forms of path dependency, all of which are more likely to play a role later in the network's lifetime. New customers also take a greater risk than later adopters, as they do not have the experience of existing customers as evidence of a reliable or valuable service.
-\item Over the first 5 years of the network's existence, the previous draft model would see the the nominal inflation rate drop over 5 times (to roughly 17.6\%). If the fee market has not sufficiently matured by this point, this reduction in earnings may render some node operations unsustainable. 
-\item At least some early customers will inflexibly require long-lasting sharing policies. This means that the protocol must motivate the successive re-commitment to long token lock durations (i.e. staking for 12+ months) by a sufficient population of node operators. A diminished inflation rate, in lieu of a mature fee market, may not be enough to incentivize this repeated and essential re-commitment. 
+\item A popular subsidy model involves daily token issuance dropping exponentially, right from launch. However, if the fee market does not sufficiently mature in time to make up for the sharp reduction in earnings the early years of the network's existence, some node operations may be rendered entirely unsustainable. 
+\item Most importantly, some of NuCypher's early customers may (inflexibly) require long-lasting sharing policies. This means that the protocol must motivate the successive re-commitment to long token lock durations (i.e. staking for 12+ months) by a sufficient population of node operators. A diminished subsidy issuance, in lieu of a mature fee market, may not be enough to incentivize this repeated and essential re-commitment. 
 \end{enumerate}
 
 \\\\
-Hence the previous draft inflation model runs the risk of \textbf{fledgling network demand coinciding with a disincentivized, dwindling or transient supply}. Note that these arguments do not involve strong claims about when (or if) network adoption will occur. Instead, it is the acknowledgement of uncertainty with respect to an adoption timeline that forms the core of the problem, and underpins the utility and advantage of a static inflation rate. 
+Hence this model attempts to mitigate the risk of \textbf{fledgling network demand coinciding with a disincentivized, dwindling or transient supply}. Note that these arguments do not involve strong claims about when (or if) network adoption will occur. Instead, it is the acknowledgement of uncertainty with respect to an adoption timeline that forms the core of the problem, and underpins the utility and advantage of a stable issuance phase as part of a two-phase minting schedule. 
+
+\subsection{Impeding centralization}
+
+A stable issuance in the first phase brings other benefits, including the partial mitigation of a centralizing dynamic suffered by many staking networks, in which larger node operators utilize subsidies to increase/consolidate control of the token supply, thanks to the allocation of tokens in proportion to stake size. Moreover, larger operators can re-stake a greater percentage of subsidies (not needing to convert as much to fiat to cover operational costs), precipitating a `rich-get-richer' dynamic. If token issuance is highest in the earliest days of the network, larger operators are granted an even greater head-start over new node operators who start staking in a later era, \textbf{the presence of whom provides the network with an important, long-term counter-balance against centralization}. Relatedly, an important rationale for the \textit{work token} model is the supposition that new node operators purchase the network's native token in order to stake and earn revenue. With a token issuance that decays from genesis, new operators are doubly disadvantaged – they must pay the market price to acquire tokens, plus they receive a diminished subsidy. 
 \\\\
-\textit{Impeding centralization}
-\\\\
-A static inflation rate brings other benefits, including the partial mitigation of a centralizing dynamic suffered by many staking networks, in which larger node operators utilize subsidies to increase/consolidate control of the token supply, thanks to the allocation of inflationary rewards in proportion to stake size. Moreover, larger operators can re-stake a greater percentage of subsidies (not needing to convert as much to fiat to cover operational costs), precipitating a `rich-get-richer' dynamic. If the inflation rate is highest in the earliest days of the network, larger operators are granted an even greater head-start over new node operators who start staking in a later era, the presence of whom provides the network with an important, long-term counter-balance against centralization. Relatedly, an important rationale for the \textit{work token} model is the supposition that new node operators purchase the network's native token in order to stake and earn revenue. With an inflation rate that decays from genesis, new operators are doubly disadvantaged – they must pay the market price to acquire tokens, plus they receive a diminished subsidy. Hence, an unchanging minting schedule assists all would-be node operators who don't happen to stake right at network launch, but decide to do so at a later date. By addressing the temporal inequity of the previous draft, we impede problematic centralization trends.
-\\\\
-\textit{Dangers to operational feasibility, incentives and pricing}
-\\\\
-As mentioned, the two-phase model implies a lower genesis inflation rate than the previous draft model. This itself confers further advantages to network health:  
+Consequently, a two-phase minting schedule assists all would-be node operators who don't happen to stake right at network launch but decide to do so at a later date. By addressing the temporal inequity of immediately decreasing issuance, we impede problematic centralization trends.
+
+\subsection{Risks to operational feasibility, incentives and pricing}
+
+As illustrated in Figure 1, `generic' subsidy models tend to involve a high issuance at genesis and in the first few years of the network's existence. Setting the peak issuance (the maximum number of tokens minted per day) at a comparatively lower figure addresses the following potential problems: 
 \begin{itemize}
-\item The greater the real-world value of the subsidy, the further from a fee-driven `reality' a node's set-up may be in economic terms (for example, in terms of operational efficiency). When subsidies eventually run out, node operators who are unable to adapt may cease operations, threatening general service availability or even reneging on existing commitments to users. 
-\item If subsidies are worth significantly more than the typical sum of transaction fees earned in the same period, then the incentive to earn those fees may be blunted. This is particularly problematic if the node operator duty required to collect subsidies does not align well with the duty required to earn fees, and the reliability of the latter impacts overall service quality. 
+\item The greater the real-world value of the subsidy, the further from a fee-driven `reality' a node's set-up may be in economic terms (for example, in terms of operational efficiency). When subsidies eventually run out, node operators who are unable to adapt may cease operations, threatening general service availability or even reneging on existing commitments to users. Under a model with higher token issuance early on, these inefficient operators may control a substantial proportion of the circulating supply by this point. 
+\item If subsidies are worth significantly more than the typical sum of transaction fees earned in the same period, then the incentive to earn those fees may be blunted. This is particularly problematic for the protocol if the work required to collect subsidies does not align well with work required to earn fees, and the reliability of the latter impacts overall service quality. 
 \item High but decreasing subsidies may compel some node operators to offer an unsustainably cheap service, with the intention of raising prices later once subsidies dry up. Any developers and their end-users that have become reliant on the service, but are unable to afford the higher price point, may see their application/business thrown into jeopardy. The existence of this risk is a serious friction for would-be network adopters planning an integration and justifying the associated upfront costs and technical dependency.
-\item In NuCypher's case, existing market prices for comparable services – key/secrets management and dynamic access control – are extremely low on a per-user basis. Profitability is generally achievable through high volume, which is a long-term endeavour. This business reality aggravates all three of the above issues described in this sub-section.
+\item In NuCypher's case, existing market prices for comparable services – key/secrets management and dynamic access control – are extremely low on a per-user basis. Profitability is generally achievable through high volume, which is a long-term endeavour. This business reality aggravates all three above issues described in this sub-section.
 \end{itemize}
 
 \section{Empirical analysis of existing networks}
 
 \textit{Full analysis to be published. This section contains a summary of results so far and an interpretation with respect to the two-phase model.}
 \\\\
-\textbf{Adjusted Reward}: The actual earnings of active stakers accounting for dilution, at a given timestamp. A function of each network's nominal inflation rate and minting schedule. Referred to elsewhere as the real yield.
+\textbf{Adjusted Reward}: The actual earnings of active stakers accounting for dilution, at a given timestamp. A function of each network's nominal issuance (`inflation rate') and consequent minting schedule. Referred to elsewhere as the real yield.
 \\
 \textbf{Total staked}: The percentage of tokens staked out of the total circulating supply at a given timestamp. Referred to elsewhere as the staking rate or participation rate.
 \\\\
@@ -70,74 +71,103 @@ In five prominent staking/PoS networks, the cross-correlation (Pearson correlati
     \label{fig:tp}
 \end{figure}
 
-Thus, the notion that \textit{node operators can only be counted on for a reliable service if they're well compensated, or will quickly abandon the network} appears, so far, to be empirically false. None of the networks under examination, across multiple data set versions (from Staking Rewards and Staked Yields), have experienced a shortfall of operators, nor are there any observable trends that correlate decreasing earnings with a increasing paucity of supply, or increasing earnings with an increasing abundance of supply. There are multiple explanations for this, but none contradict the overarching rationale of this proposal. For example, one may study this seemingly unshakeable staker loyalty and tolerance of low reward rates, in the first year of these networks' existence and beyond, and attribute it to a prevalence of long-term investment strategies, deep pockets, ideological commitment or even irrational enthusiasm. Crucially, regardless of which underlying explanation you favour, there remains a strong case to flatten the minting schedule such that the earliest node operators do not capture a disproportionate share of the total supply.
+Thus, the notion that \textit{node operators can only be counted on for a reliable service if they are well compensated, or will quickly abandon the network} appears, so far, to be empirically false. None of the networks under examination, across multiple data set versions (from Staking Rewards and Staked Yields), have experienced a shortfall of operators, nor are there any observable trends that correlate decreasing earnings with an increasing paucity of supply, or increasing earnings with an increasing abundance of supply. There are multiple explanations for this, but none contradict the overarching rationale of the two-phase model. For example, one may study this seemingly unshakeable staker loyalty and tolerance of low reward rates, in the first year of these networks' existence and beyond, and attribute it to a prevalence of long-term investment strategies, deep pockets, ideological commitment or even irrational enthusiasm. Crucially, regardless of which underlying explanation you favour, there remains a strong case to flatten the minting schedule such that the earliest node operators do not capture a disproportionate share of the total supply.
 
 \section{Deriving new parameters}
 
-The previous draft inflation model utilizes the following parameters:
-\begin{itemize}
-    \item Genesis inflation rate – $I_0$ = 100\%
-    \item Inflation rate half-life – $T_{1/2}$ = 2 years
-    \item Genesis supply – $S_0$ = 1 billion tokens 
-    \item Max tokens ever minted – $S(\infty)$ = 3.885 billion tokens
-\end{itemize}
 \\\\
-In parametrizing the new, two-phase model, we choose to maintain certain parameters from the previous draft. We therefore derive a new genesis inflation rate such that the total number of tokens ever to be minted, $S(\infty)$, remains approximately 3.885 billion, and the half-life in the second phase, $T_{1/2}$, remains 2 years. This means that the number of tokens minted in the the first five years is necessarily lower than in the previous draft. 
-\\\\
-We can derive the new genesis inflation rate – $I_{static}$ – using an expression for the total supply at $t=\infty$ , which is the sum of (1) the tokens circulating at genesis, (2) the tokens minted in the first phase, and (3) the tokens minted in the second phase. Note that the boundaries of the second integral are $0$ and $\infty$, rather than $5$ and $\infty$, because the second phase exists mathematically \textit{as though} there was no first phase. Note also that all numerical figures in this derivation are rounded for readability.
+In parametrizing the two-phase model, we fix certain parameters, and derive the rest from those constraints. We fix the total number of tokens ever to be minted, $S(\infty)$ at approximately 3.885 billion, and the half-life of the issuance decay in the second phase, $T_{1/2}$, at 2 years. We also fix the circulating supply at launch, $S_0$, at 1 billion tokens.
+
+\subsection{Minting Schedule}
+A key parameter for this model is the number of tokens minted per year in phase one, which we describe as the `stable issuance' ($I_{stable}$). Using an expression for $S(\infty)$, we can derive $I_{stable}$, expressible as a percentage of the genesis supply ($S_0$). $S(\infty)$ is the sum of (1) the tokens circulating at genesis, (2) the tokens minted in phase one, and (3) the tokens minted in phase two. Note that the boundaries of the second integral are $0$ and $\infty$, rather than $5$ and $\infty$, because the second phase exists mathematically \textit{as though} there was no first phase. Note also that all numerical figures in this derivation are rounded for readability.
 
 \begin{equation}
-    S(\infty) = S_0  +  S_0 \cdot \int_0^{5} I_{static}(t)\, dt  +  S_0 \cdot \int_0^{\infty} I_{static}(t)\, dt
+    S(\infty) = S_0  +  S_0 \cdot \int_0^{5} I_{stable}(t)\, dt  +  S_0 \cdot \int_0^{\infty} I(t)\, dt
 \end{equation}
 
-Tthe following equation calculates the decaying inflation rate at a time $t$.
+For phase two, we calculate the decaying issuance at a time $t$.
  
  \begin{equation}
-    I(t) = I_0 \cdot 2^{-\frac{t}{T_{1/2}}}
+    I(t) = I_{stable} \cdot 2^{-\frac{t}{T_{1/2}}}
 \end{equation}
 
 We sub in $3.885 \cdot S_0$ for $S(\infty)$ and solve the first integral.
 
 \begin{equation}
-    3.885 \cdot S_0  = S_0 + S_0 \cdot (5 \cdot I_{static}) + S_0 \cdot \int_0^{\infty}     I_{static} \cdot 2^{-\frac{t}{T_{1/2}}} \, dt
+    3.885 \cdot S_0  = S_0 + S_0 \cdot (5 \cdot I_{stable}) + S_0 \cdot \int_0^{\infty} I_{stable} \cdot 2^{-\frac{t}{T_{1/2}}} \, dt
 \end{equation}
 
 We cancel out $S_0$ and solve the second integral.
 
 \begin{equation}
-    3.885 = 1 + 5 \cdot  I_{static} + I_{static} \cdot \left[\frac{-2^{(1-\frac{t}{2})}}{\ln{2}}\right]_0^\infty
+    3.885 = 1 + 5 \cdot  I_{stable} + I_{stable} \cdot \left[\frac{-2^{(1-\frac{t}{2})}}{\ln{2}}\right]_0^\infty
 \end{equation}
 
-We are now able to find an expression for $I_{static}$.
+We are now able to find an expression for $I_{stable}$. Once again note that this variable is expressed as a percentage of the genesis supply, $S_0$.
 
 \begin{equation}
-    2.885 = I_{static} \cdot (5 + \frac{2}{\ln{2}})
+    2.885 = I_{stable} \cdot (5 + \frac{2}{\ln{2}})
 \end{equation}
 
 \begin{equation}
-   I_{static} = \frac{2.885}{7.885} = 36.6\%
+   I_{stable} = \frac{2.885}{7.885} = 36.6\%
 \end{equation}
 
-This is equivalent to a daily inflation rate of 0.10\% in the first five years, equivalent to the first 1826 periods.
-\\\\
-Note that the inflation rate of 0.10\% is applied, in each of the first 1825 periods, \textbf{to the genesis supply} ($S_0$ = 1 billion), not, as some may assume, to the variable supply ($S$ $>$ 1 billion). In other words, the supply grows by a constant number of tokens every period, which implies that the `real' percentage growth rate of the supply actually decreases period-to-period. 
-\\\\
-To avoid confusing the inflation rate with the real growth rate of the supply, we hereafter suggest the term \textit{minting schedule} to describe the growth of the circulating supply.
-\\\\
-So the minting schedule of the two-phase model, over the first five years, is as follows: 
+We use $I_{stable}$ to find the number of tokens minted per year for the first 5 years.
 
 \begin{equation}
-   I_{static} \cdot S_0 = 365,915,960\:new \:tokens \:per \:year
+   I_{stable} \cdot S_0 = 365,915,960\:\:new \:tokens \:per \:year
 \end{equation}
-\\
-This is equivalent to 1,002,509 newly minted tokens released into the circulating supply, every period for the first 1825 periods. 
+
+This is equivalent to 1,002,509 newly minted tokens released into the circulating supply, every period (day) for the first 1825 periods. After this, the issuance decays on a period-to-period basis. For example, 1,001,558 tokens are minted on day 1827, which is 951 fewer than the previous day.
 \\\\
-It's important to note that this distinction between the inflation rate and real growth rate of the supply is not a unique feature of the the two-phase proposal. In the previous draft model, the real growth rate of the supply decreases \textit{more rapidly} than the inflation rate – since it is a function of both the inflation rate's decay \textit{and} the supply's growth over time. This is particularly relevant because the second phase of the two-phase model follows a similar formula. The minting schedule after period 1825 (the last day of year 5) involves a rate which decays period-to-period, applied daily to the constant of the genesis supply (1 billion tokens). For example, 1,001,558 new tokens are minted on day 1827, which is 951 fewer than the previous day.
+In this token minting schedule, we can work out that approximately 1.83 billion tokens will be minted in the first phase, followed by a further 1.056 billion between the commencement of phase two and t = $\infty$.
+
+\subsection{Variable stake lock-up duration}
+
+In the NuCypher protocol, the number of tokens distributed to node operators in a given period depends on the current stage in the minting schedule and the size of their stake, but is also a function of the remaining locked duration of their stake (in fact, the duration of each of the `sub-stakes' they control). Any sub-stake locked for a short duration receives less than the maximum subsidy, thereby slowing the expansion of the entire circulating supply – tokens are only minted if they are to be distributed to node operators. The number of tokens minted daily for a given sub-stake depends on the coefficient $\kappa$:
+
+\begin{equation}
+    \kappa &=& \left(0.5 + 0.5 \cdot \frac{\min(D_i, D_{max})}{D_{max}}\right)
+\end{equation}
+
+Where $D_i$ is the duration (the number of periods) until the sub-stake unlocks and $D_{max}$ is currently set to 365. 
 \\\\
-With this new token minting schedule, we can work out that approximately 1.83 billion tokens are minted in the first 5 years, followed by approximately a further 1.056 billion between the fifth year and t = $\infty$.
+In phase one, a given sub-stake $i$ will have received the following sum of tokens by the period $p$.
+
+\begin{equation}
+    \label{eq:rate-max}
+    ds_{i,p} = \kappa \cdot \frac{l_i}{L} \cdot \left(S_{P1} - S_{p-1} \right)\\
+\end{equation}
+
+Where $l$ is the size of the sub-stake, $L$ is the sum of all locked sub-stakes, and $S_{P1}$ is the maximum number of tokens to be minted in the first phase (approximately 1.83 billion tokens). In phase two, a similar equation can be utilized: 
+
+\begin{equation}
+    \label{eq:rate-max}
+    ds_{i,p} = \kappa \cdot \frac{l_i}{L} \cdot \frac{\ln{2}}{T_{1/2}} \cdot \left(S_{P2} - S_{p-1} \right)\\
+\end{equation}
+
+Where $S_{P2}$ is the maximum number of tokens to be minted in the second phase (approximately 1.056 billion tokens). 
+\\\\
+The circulating supply at a given period is the sum of the tokens received thus far by all sub-stakes: 
+\begin{equation}
+    dS_p= \sum_i ds_{i,p},
+\end{equation}
+
+The implication is that it will likely take longer than 5 years to mint all the tokens reserved for phase one. The year in which the protocol switches from the first to second phase, $T_{1\rightarrow2}$, is therefore : 
+
+\begin{equation}
+    T_{1\rightarrow2}= \frac{S_{P1}}{S_0 \cdot \kappa^* \cdot I_{stable}}
+\end{equation}
+
+Where $\kappa^*$ is the average lock duration of all sub-stakes, weighted by relative size, across all periods in question. For example, if $\kappa^*$ is 73 days, then the minting schedule will switch phases about 8 1/3 years after network launch. If $\kappa^*$ is 11 months, $T_{1\rightarrow2}$ equals 5 years \& 79 days. 
+\\\\
+For reference, the supply in the second phase can be calculated with this equation: 
+
+\begin{equation}
+    S(t) = S_0 \left[1 + \frac{I_{stable} \cdot T_{1/2}}{\ln{2}}\left(1 - 2^{-\frac{t \cdot \kappa^*}{T_{1/2}}} \right) \right].
+\end{equation}
+
+Which implies that issuance decay is proportional to $\kappa^*$. In a similar fashion to phase one, shorter average lock-ups decelerate the minting of tokens. 
 
 \end{document}
-
-In other words, the same amount of tokens will be emitted from $t=5$ until $t=\infty$ 
-
-Similarly, the proposal does not cover the individual yield (the actual earnings of each staker, which is a function of the overall staking percentage and dilution), and focus this proposal on the \textit{nominal} inflation rate.
